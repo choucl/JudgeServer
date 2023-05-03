@@ -18,8 +18,8 @@ class Compiler(object):
         os.chdir(output_dir)
         env = compile_config.get("env", [])
         env.append("PATH=" + os.getenv("PATH"))
-        result = _judger.run(max_cpu_time=compile_config["max_cpu_time"],
-                             max_real_time=compile_config["max_real_time"],
+        result = _judger.run(max_cpu_time=-1,
+                             max_real_time=-1,
                              max_memory=compile_config["max_memory"],
                              max_stack=128 * 1024 * 1024,
                              max_output_size=20 * 1024 * 1024,

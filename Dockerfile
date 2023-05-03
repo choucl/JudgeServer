@@ -3,8 +3,8 @@ FROM ubuntu:18.04
 COPY build/java_policy /etc
 #RUN sed -E -i -e 's/(archive|ports).ubuntu.com/mirrors.aliyun.com/g' -e '/security.ubuntu.com/d' /etc/apt/sources.list
 ENV DEBIAN_FRONTEND=noninteractive
-RUN buildDeps='software-properties-common git libtool cmake python-dev python3-pip python-pip libseccomp-dev curl' && \
-    apt-get update && apt-get install -y python python3 python-pkg-resources python3-pkg-resources $buildDeps && \
+RUN buildDeps='software-properties-common git libtool cmake python3-pip libseccomp-dev curl' && \
+    apt-get update && apt-get install -y python3 python3-pkg-resources $buildDeps && \
     add-apt-repository ppa:openjdk-r/ppa && add-apt-repository ppa:longsleep/golang-backports && \
     add-apt-repository ppa:ubuntu-toolchain-r/test && \
     add-apt-repository ppa:ondrej/php && \
@@ -13,6 +13,7 @@ RUN buildDeps='software-properties-common git libtool cmake python-dev python3-p
     update-alternatives --install  /usr/bin/gcc gcc /usr/bin/gcc-9 40 && \
     update-alternatives --install  /usr/bin/g++ g++ /usr/bin/g++-9 40 && \
     phpJitOption='opcache.enable=1\nopcache.enable_cli=1\nopcache.jit=1205\nopcache.jit_buffer_size=64M' && \
+    mkdir -p /etc/php/8.0/cli/conf.d/ && \
     echo $phpJitOption > /etc/php/8.0/cli/conf.d/10-opcache-jit.ini && \
     pip3 install -i https://mirrors.aliyun.com/pypi/simple/ -I --no-cache-dir psutil gunicorn flask requests idna && \
     cd /tmp && git clone -b newnew  --depth 1 https://gitee.com/qduoj/Judger.git && cd Judger && \
